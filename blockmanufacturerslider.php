@@ -66,7 +66,7 @@ class BlockManufacturerSlider extends Module
 	{
 		$success = (parent::install() &&
 			$this->registerHook('displayHeader') &&
-			$this->registerHook('displayHomeTab') &&
+			$this->registerHook('displayHomeManufacturerCarousel') &&
 			$this->registerHook('actionObjectManufacturerDeleteAfter') &&
 			$this->registerHook('actionObjectManufacturerAddAfter') &&
 			$this->registerHook('actionObjectManufacturerUpdateAfter') &&
@@ -79,18 +79,23 @@ class BlockManufacturerSlider extends Module
     {
     	$this->context->controller->addCSS($this->_path.'views/stylesheets/jquery.bxslider.css');
     	$this->context->controller->addJqueryPlugin(array('bxslider'));
-    	
+
     	$this->context->controller->addCSS($this->_path.'views/stylesheets/blockmanufacturerslider.css');
     	$this->context->controller->addJS($this->_path.'views/javascripts/blockmanufacturerslider.js');
     }
 
-    public function hookDisplayHomeTab($params)
+    public function hookDisplayHomeManufacturerCarousel($params)
     {
-    	$manufacturers = json_decode(file_get_contents($this->_cache_filepath));
+    	if (!file_exists($this->_cache_filepath))
+    		return;
+
+    	$manufacturers = json_decode(file_get_contents($this->_cache_filepath), true);
+    	
     	$this->smarty->assign(array(
     		'manufacturers' => $manufacturers
 		));
-    	return $this->display(__FILE__, 'display_home.tpl');
+    	
+    	return $this->display(__FILE__, 'display_home_manufacturer_carousel.tpl');
     }
 
     public function hookActionObjectManufacturerAddAfter($params)
@@ -120,16 +125,15 @@ class BlockManufacturerSlider extends Module
     	$manufacturers = Manufacturer::getManufacturers();
     	$jsonData = array();
 
-    	foreach ($manufactures as $manufacturer) {
+    	foreach ($manufacturers as $manufacturer) {
     		$image = $manufacturer['id_manufacturer'].'-'.ImageType::getFormatedName('medium').'.jpg';
     		$imageFile = _PS_MANU_IMG_DIR_.$manufacturer['id_manufacturer'].'-'.ImageType::getFormatedName('medium').'.jpg';
 			if (file_exists($imageFile)) {
-	    		$imageFileUrl = '';
 	    		$jsonData[] = array(
 	    			'id_manufacturer' => $manufacturer['id_manufacturer'],
 	    			'name' => $manufacturer['name'],
 	    			'link_rewrite' => $manufacturer['link_rewrite'],
-	    			'image' => '/img/'._PS_MANU_IMG_DIR_.$image
+	    			'image' => '/img/m/'.$image
 				);
 			}
     	}

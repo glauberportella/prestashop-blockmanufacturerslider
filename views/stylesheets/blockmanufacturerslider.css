@@ -10,3 +10,32 @@
 {
 	background: #6BB9F0;
 }
+
+/**
+ * Prestashop Homeslider module fix for navigation controls
+ */
+#homepage-slider .bx-wrapper .bx-controls-direction a {
+	background: none;
+}
+
+/**
+ * Filter on images
+ */
+
+.brand > img {
+	filter: url(desaturate.svg#greyscale);
+	filter: gray;
+	-webkit-filter: grayscale(1);
+	-webkit-filter: grayscale(100%);
+	-moz-filter: grayscale(100%);
+	-o-filter: grayscale(100%);
+	opacity: 0.4;
+}
+
+.brand:hover img {
+	filter: none;
+	-webkit-filter: none;
+	-moz-filter: none;
+	-o-filter: none;
+	opacity: 1;
+}
