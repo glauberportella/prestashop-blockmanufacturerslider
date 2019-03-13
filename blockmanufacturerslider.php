@@ -126,8 +126,15 @@ class BlockManufacturerSlider extends Module
     	$jsonData = array();
 
     	foreach ($manufacturers as $manufacturer) {
-    		$image = $manufacturer['id_manufacturer'].'-'.ImageType::getFormatedName('medium').'.jpg';
-    		$imageFile = _PS_MANU_IMG_DIR_.$manufacturer['id_manufacturer'].'-'.ImageType::getFormatedName('medium').'.jpg';
+			// @todo Add module configuration to select the image size to use
+			// @todo Add new images sizes for module
+			// medium size image
+    		//$image = $manufacturer['id_manufacturer'].'-'.ImageType::getFormatedName('medium').'.jpg';
+			//$imageFile = _PS_MANU_IMG_DIR_.$manufacturer['id_manufacturer'].'-'.ImageType::getFormatedName('medium').'.jpg';
+
+			// original size image
+			$image = $manufacturer['id_manufacturer'].'.jpg';
+			$imageFile = _PS_MANU_IMG_DIR_.$manufacturer['id_manufacturer'].'.jpg';
 			if (file_exists($imageFile)) {
 	    		$jsonData[] = array(
 	    			'id_manufacturer' => $manufacturer['id_manufacturer'],
